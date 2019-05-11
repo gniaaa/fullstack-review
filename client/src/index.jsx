@@ -11,6 +11,7 @@ class App extends React.Component {
       repos: []
     }
     this.getRepos = this.getRepos.bind(this);
+    this.refreshPage = this.refreshPage.bind(this);
   }
 
   componentDidMount() {
@@ -23,11 +24,14 @@ class App extends React.Component {
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({ username: term }),
-      success: () => (console.log(`${term} was searched!`))
+      success: () => {
+        console.log(`${term} was searched!`)
+        window.location.reload();
+      }
     })
   }
 
-  getRepos() {
+  getRepos(cb = () => { }) {
     $.ajax({
       url: 'http://127.0.0.1:1128/repos',
       type: 'GET',
@@ -37,14 +41,20 @@ class App extends React.Component {
           repos: data
         })
       }
-    })
+    }).done(cb);
   }
+
+  refreshPage() {
+    this.getRepos(() => window.location.reload);
+  }
+
 
   render() {
     return (<div>
       <h1>Github Fetcher</h1>
       <RepoList repos={this.state.repos} />
       <Search onSearch={this.search.bind(this)} />
+      <button id="refresh-page" onClick={this.refreshPage}>REFRESH PAGE</button>
     </div>)
   }
 }

@@ -42,6 +42,17 @@ h1 {
   text-align: center;
 }
 
+#refresh-page, #add-repos {
+  margin-top: 20px;
+  font-size: 14px;
+  border: 0.5px solid darkgray;
+  border-radius: 5px;
+}
+
+#add-repos {
+  margin-left: 5px;
+}
+
 /* ==============
 FONTS
 ====================*/
