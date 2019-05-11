@@ -19,7 +19,7 @@ class App extends React.Component {
 
   search(term) {
     $.ajax({
-      url: 'http://127.0.0.1:1128/repos',
+      url: '/repos',
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify({ username: term }),
@@ -34,7 +34,7 @@ class App extends React.Component {
 
   getRepos() {
     $.ajax({
-      url: 'http://127.0.0.1:1128/repos',
+      url: '/repos',
       type: 'GET',
       contentType: 'application/json',
       success: (data) => {

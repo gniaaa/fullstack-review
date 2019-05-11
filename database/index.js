@@ -1,6 +1,9 @@
 const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
+
+
+
 let repoSchema = mongoose.Schema({
   repo_id: Number,
   username: String,
@@ -21,7 +24,7 @@ let save = (data, callback) => {
   let errors = [];
 
   data.forEach(repo => {
-    Repo.updateOne({ repo_id: repo['repo_id'] }, repo, { upsert: true }, (err) => {
+    Repo.findOneAndUpdate({ repo_id: repo['repo_id'] }, repo, { upsert: true }, (err) => {
       if (err) { errors.push(err); }
       count++;
 
