@@ -9,11 +9,10 @@ let repoSchema = mongoose.Schema({
   description: String,
   forks_count: Number,
   stargazers_count: Number,
-  createdAt: {
-    type: Date,
-    default: Date.now
-  }
+  createdAt: Date
 });
+
+repoSchema.index({ repo_id: 1 });
 
 let Repo = mongoose.model('Repo', repoSchema);
 
@@ -39,7 +38,7 @@ let save = (data, callback) => {
 }
 
 let getRepos = (callback) => {
-  Repo.find({}).limit(25).sort({ createdAt: -1 }).exec(callback);
+  Repo.find({}).sort({ createdAt: -1 }).limit(25).exec(callback);
 };
 
 module.exports = {

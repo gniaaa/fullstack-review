@@ -20,7 +20,13 @@ class RepoTable extends React.Component {
     let row = [];
     let data = [index + 1, repo['username'], repo['name'], repo['forks_count'], repo['stargazers_count']];
     data.forEach((cell, col) => {
-      row.push(<td key={col} className={`table-col-${col}`}>{cell}</td>);
+      if (cell === repo['name']) {
+        row.push(<td key={col} className={`table-col-${col}`}>
+          <a className='git-links' href={repo['html_url']}>{cell}</a></td>);
+      } else {
+        row.push(<td key={col} className={`table-col-${col}`}>{cell}</td>);
+      }
+
     })
     return row;
   }

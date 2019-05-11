@@ -25,6 +25,7 @@ app.post('/repos', function (req, res) {
       let filteredRepo = {
         username,
         repo_id: repo['id'],
+        createdAt: new Date()
       };
       for (let header of headers) {
         filteredRepo[header] = repo[header];
@@ -32,12 +33,20 @@ app.post('/repos', function (req, res) {
       return filteredRepo;
     })
 
-    db.save(selectedInfo, (err) => {
+    db.save(selectedInfo, (err, data) => {
       if (err) {
         res.sendStatus(500).send('Failed to write to database');
         return;
       }
-      res.sendStatus(201);
+
+      db.getRepos((err, data) => {
+        if (err) {
+          res.sendStatus(404).send('Failed to get latest repos');
+          return;
+        } else {
+          res.send(data);
+        }
+      })
     });
   })
 });
@@ -48,7 +57,7 @@ app.get('/repos', function (req, res) {
       res.sendStatus(404).send('Failed to get latest repos');
       return;
     } else {
-      res.json(data);
+      res.send(data);
     }
   })
 });
