@@ -24,7 +24,7 @@ app.post('/repos', function (req, res) {
       let headers = ['name', 'html_url', 'description', 'forks_count', 'stargazers_count'];
       let filteredRepo = {
         username,
-        repo_id: repo['id']
+        repo_id: repo['id'],
       };
       for (let header of headers) {
         filteredRepo[header] = repo[header];
@@ -39,19 +39,18 @@ app.post('/repos', function (req, res) {
       }
       res.sendStatus(201);
     });
-
-
-
   })
-  // TODO - your code here!
-  // This route should take the github username provided
-  // and get the repo information from the github API, then
-  // save the repo information in the database
 });
 
 app.get('/repos', function (req, res) {
-  // TODO - your code here!
-  // This route should send back the top 25 repos
+  db.getRepos((err, data) => {
+    if (err) {
+      res.sendStatus(404).send('Failed to get latest repos');
+      return;
+    } else {
+      res.json(data);
+    }
+  })
 });
 
 let port = 1128;

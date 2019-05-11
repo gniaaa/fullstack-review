@@ -10,14 +10,12 @@ class App extends React.Component {
     this.state = {
       repos: []
     }
+    this.getRepos = this.getRepos.bind(this);
   }
 
-  // componentDidMount() {
-  //   var url = path.join(__dirname, '../server/repos');
-  //   $.get(url, (data) => {
-  //     // handle data
-  //   }).error((err) => console.log('error getting repos: ', err));
-  // }
+  componentDidMount() {
+    this.getRepos();
+  }
 
   search(term) {
     $.ajax({
@@ -26,6 +24,19 @@ class App extends React.Component {
       contentType: 'application/json',
       data: JSON.stringify({ username: term }),
       success: () => (console.log(`${term} was searched!`))
+    })
+  }
+
+  getRepos() {
+    $.ajax({
+      url: 'http://127.0.0.1:1128/repos',
+      type: 'GET',
+      contentType: 'application/json',
+      success: (data) => {
+        this.setState({
+          repos: data
+        })
+      }
     })
   }
 
